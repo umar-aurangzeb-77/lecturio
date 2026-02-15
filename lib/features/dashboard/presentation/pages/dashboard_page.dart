@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../bloc/exam_bloc.dart';
+import '../widgets/exam_card.dart';
+import '../widgets/add_exam_sheet.dart';
+import '../../../../injection_container.dart';
+import '../../../../core/data/repositories/subject_repository.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -40,7 +46,15 @@ class DashboardPage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        heroTag: 'dashboard_fab',
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (context) => const AddExamSheet(),
+          );
+        },
         label: const Text('Add Exam'),
         icon: const Icon(Icons.add),
         backgroundColor: AppColors.accentCoral,
@@ -72,57 +86,42 @@ class DashboardPage extends StatelessWidget {
   }
 
   Widget _buildExamList() {
-    return SizedBox(
-      height: 160,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: 3,
-        separatorBuilder: (context, index) => const SizedBox(width: 16),
-        itemBuilder: (context, index) {
-          return Container(
-            width: 200,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.secondaryNavy,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: AppColors.accentCoral.withOpacity(0.3)),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Badge(
-                  label: Text('3 Days Left'),
-                  backgroundColor: AppColors.accentCoral,
-                ),
-                const Spacer(),
-                Text(
-                  'Computer Science',
-                  style: GoogleFonts.outfit(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'Midterm Exam',
-                  style: GoogleFonts.outfit(color: AppColors.textSecondary),
-                ),
-                const SizedBox(height: 8),
-                const Row(
-                  children: [
-                    Icon(
-                      Icons.calendar_today,
-                      size: 14,
-                      color: AppColors.accentGold,
-                    ),
-                    SizedBox(width: 4),
-                    Text('Oct 24, 2023', style: TextStyle(fontSize: 12)),
-                  ],
-                ),
-              ],
+    return BlocBuilder<ExamBloc, ExamState>(
+      builder: (context, state) {
+        if (state is ExamLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (state is ExamLoaded) {
+          if (state.exams.isEmpty) {
+            return Center(
+              child: Text(
+                'No upcoming exams',
+                style: GoogleFonts.outfit(color: AppColors.textSecondary),
+              ),
+            );
+          }
+
+          final subjects = sl<SubjectRepository>().getAllSubjects();
+
+          return SizedBox(
+            height: 160,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: state.exams.length,
+              separatorBuilder: (context, index) => const SizedBox(width: 16),
+              itemBuilder: (context, index) {
+                final exam = state.exams[index];
+                final subject = subjects.firstWhere(
+                  (s) => s.id == exam.subjectId,
+                  orElse: () => subjects.first,
+                );
+                return ExamCard(exam: exam, subjectName: subject.name);
+              },
             ),
           );
-        },
-      ),
+        }
+        return const SizedBox();
+      },
     );
   }
 

@@ -11,51 +11,46 @@ class MainNavigationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NavigationBloc(),
-      child: BlocBuilder<NavigationBloc, NavigationState>(
-        builder: (context, state) {
-          return Scaffold(
-            body: IndexedStack(
-              index: state.index,
-              children: const [DashboardPage(), StudyPage(), VaultPage()],
+    return BlocBuilder<NavigationBloc, NavigationState>(
+      builder: (context, state) {
+        return Scaffold(
+          body: IndexedStack(
+            index: state.index,
+            children: const [DashboardPage(), StudyPage(), VaultPage()],
+          ),
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 20,
+                  offset: const Offset(0, -5),
+                ),
+              ],
             ),
-            bottomNavigationBar: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    blurRadius: 20,
-                    offset: const Offset(0, -5),
-                  ),
-                ],
-              ),
-              child: BottomNavigationBar(
-                currentIndex: state.index,
-                onTap: (index) {
-                  context.read<NavigationBloc>().add(
-                    NavigationTabChanged(index),
-                  );
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.dashboard_rounded),
-                    label: 'Dashboard',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(FontAwesomeIcons.bookOpen),
-                    label: 'Study',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.folder_copy_rounded),
-                    label: 'Vault',
-                  ),
-                ],
-              ),
+            child: BottomNavigationBar(
+              currentIndex: state.index,
+              onTap: (index) {
+                context.read<NavigationBloc>().add(NavigationTabChanged(index));
+              },
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.dashboard_rounded),
+                  label: 'Dashboard',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.bookOpen),
+                  label: 'Study',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.folder_copy_rounded),
+                  label: 'Vault',
+                ),
+              ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

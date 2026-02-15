@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'subject_detail_page.dart';
+import '../../../../injection_container.dart';
+import '../../../../core/data/repositories/subject_repository.dart';
 
 class VaultPage extends StatelessWidget {
   const VaultPage({super.key});
@@ -32,32 +34,27 @@ class VaultPage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 0.9,
-                ),
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  return _buildSubjectFolderCard(
-                    context,
-                    name: index == 0
-                        ? 'Computer Science'
-                        : index == 1
-                        ? 'Mathematics'
-                        : index == 2
-                        ? 'Biology'
-                        : 'History',
-                    fileCount: 12 + index * 5,
-                    color: index == 0
-                        ? Colors.blue
-                        : index == 1
-                        ? Colors.green
-                        : index == 2
-                        ? Colors.orange
-                        : Colors.purple,
+              child: Builder(
+                builder: (context) {
+                  final subjects = sl<SubjectRepository>().getAllSubjects();
+                  return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                          childAspectRatio: 0.9,
+                        ),
+                    itemCount: subjects.length,
+                    itemBuilder: (context, index) {
+                      final subject = subjects[index];
+                      return _buildSubjectFolderCard(
+                        context,
+                        name: subject.name,
+                        fileCount: 0, // Placeholder for now
+                        color: Color(int.parse(subject.color)),
+                      );
+                    },
                   );
                 },
               ),
@@ -66,6 +63,7 @@ class VaultPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'vault_fab',
         onPressed: () {},
         backgroundColor: AppColors.accentCoral,
         child: const Icon(Icons.upload_file),
