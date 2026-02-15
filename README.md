@@ -62,7 +62,3 @@ lib/
 │   └── vault/        # Subject and file management
 └── main.dart         # Entry point and initialization
 ```
-
----
-
-*Made with ❤️ for students everywhere.*
