@@ -8,8 +8,6 @@ import 'package:lecturio/injection_container.dart';
 import 'package:lecturio/core/data/repositories/subject_repository.dart';
 import 'package:lecturio/core/data/repositories/note_repository.dart';
 import 'package:lecturio/core/data/repositories/vault_repository.dart';
-import 'package:lecturio/features/vault/domain/models/vault_item.dart';
-import 'package:hive/hive.dart';
 
 class VaultPage extends StatefulWidget {
   const VaultPage({super.key});
@@ -50,7 +48,7 @@ class _VaultPageState extends State<VaultPage> {
             const SizedBox(height: 32),
             Text(
               'Subject Folders',
-              style: GoogleFonts.outfit(
+              style: GoogleFonts.inter(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -73,7 +71,7 @@ class _VaultPageState extends State<VaultPage> {
                           const SizedBox(height: 16),
                           Text(
                             'No subjects created yet',
-                            style: GoogleFonts.outfit(
+                            style: GoogleFonts.inter(
                               color: AppColors.textSecondary,
                             ),
                           ),
@@ -142,8 +140,8 @@ class _VaultPageState extends State<VaultPage> {
             if (value == true) setState(() {});
           });
         },
-        backgroundColor: AppColors.accentCoral,
-        child: const Icon(Icons.upload_file),
+        backgroundColor: AppColors.primaryGreen,
+        child: const Icon(Icons.upload_file, color: Colors.white),
       ),
     );
   }
@@ -200,11 +198,11 @@ class _VaultPageState extends State<VaultPage> {
         const SizedBox(height: 8),
         Text(
           value,
-          style: GoogleFonts.outfit(fontSize: 18, fontWeight: FontWeight.bold),
+          style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         Text(
           label,
-          style: GoogleFonts.outfit(
+          style: GoogleFonts.inter(
             fontSize: 12,
             color: AppColors.textSecondary,
           ),
@@ -255,7 +253,7 @@ class _VaultPageState extends State<VaultPage> {
             const Spacer(),
             Text(
               name,
-              style: GoogleFonts.outfit(
+              style: GoogleFonts.inter(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -265,7 +263,7 @@ class _VaultPageState extends State<VaultPage> {
             const SizedBox(height: 4),
             Text(
               '$fileCount Files',
-              style: GoogleFonts.outfit(
+              style: GoogleFonts.inter(
                 fontSize: 12,
                 color: AppColors.textSecondary,
               ),

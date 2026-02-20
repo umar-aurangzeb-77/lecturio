@@ -8,6 +8,8 @@ import 'package:lecturio/features/dashboard/presentation/widgets/add_exam_sheet.
 import 'package:lecturio/injection_container.dart';
 import 'package:lecturio/core/data/repositories/subject_repository.dart';
 
+import 'package:lecturio/core/theme/theme_bloc.dart';
+
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
@@ -20,10 +22,27 @@ class DashboardPage extends StatelessWidget {
             expandedHeight: 120,
             floating: false,
             pinned: true,
+            actions: [
+              BlocBuilder<ThemeBloc, ThemeState>(
+                builder: (context, state) {
+                  return IconButton(
+                    icon: Icon(
+                      state.themeMode == AppThemeMode.green
+                          ? Icons.dark_mode
+                          : Icons.light_mode,
+                    ),
+                    onPressed: () {
+                      context.read<ThemeBloc>().add(ToggleTheme());
+                    },
+                  );
+                },
+              ),
+              const SizedBox(width: 8),
+            ],
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 'Lecturio Dashboard',
-                style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+                style: GoogleFonts.inter(fontWeight: FontWeight.bold),
               ),
               centerTitle: false,
               titlePadding: const EdgeInsets.only(left: 20, bottom: 16),
@@ -57,7 +76,6 @@ class DashboardPage extends StatelessWidget {
         },
         label: const Text('Add Exam'),
         icon: const Icon(Icons.add),
-        backgroundColor: AppColors.accentCoral,
       ),
     );
   }
@@ -68,19 +86,9 @@ class DashboardPage extends StatelessWidget {
       children: [
         Text(
           title,
-          style: GoogleFonts.outfit(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: AppColors.softWhite,
-          ),
+          style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        TextButton(
-          onPressed: onSeeAll,
-          child: const Text(
-            'See All',
-            style: TextStyle(color: AppColors.textSecondary),
-          ),
-        ),
+        TextButton(onPressed: onSeeAll, child: const Text('See All')),
       ],
     );
   }
@@ -94,10 +102,7 @@ class DashboardPage extends StatelessWidget {
         if (state is ExamLoaded) {
           if (state.exams.isEmpty) {
             return Center(
-              child: Text(
-                'No upcoming exams',
-                style: GoogleFonts.outfit(color: AppColors.textSecondary),
-              ),
+              child: Text('No upcoming exams', style: GoogleFonts.inter()),
             );
           }
 
@@ -129,10 +134,7 @@ class DashboardPage extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 24),
-        child: Text(
-          'No smart reminders yet',
-          style: GoogleFonts.outfit(color: AppColors.textSecondary),
-        ),
+        child: Text('No smart reminders yet', style: GoogleFonts.inter()),
       ),
     );
   }

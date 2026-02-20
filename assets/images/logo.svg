@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 180" width="200" height="180">
+  <!-- Icon: 3 stacked angular chevron/page shapes -->
+  <g fill="black">
+    <!-- Bottom layer -->
+    <polygon points="30,110 100,40 170,110 155,110 100,58 45,110" />
+    <!-- Middle layer -->
+    <polygon points="45,125 100,65 155,125 140,125 100,80 60,125" />
+    <!-- Top layer -->
+    <polygon points="60,140 100,90 140,140 125,140 100,105 75,140" />
+  </g>
+  <!-- Text: Lectudio. -->
+  <text
+    x="100"
+    y="170"
+    text-anchor="middle"
+    font-family="'Inter', 'Arial Black', sans-serif"
+    font-weight="800"
+    font-size="32"
+    fill="black"
+    letter-spacing="-0.5"
+  >Lectudio.</text>
+</svg>

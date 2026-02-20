@@ -35,7 +35,7 @@ class NoteDetailPage extends StatelessWidget {
               ),
               title: Text(
                 note.title,
-                style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+                style: GoogleFonts.inter(fontWeight: FontWeight.bold),
               ),
             ),
             actions: [
@@ -67,7 +67,7 @@ class NoteDetailPage extends StatelessWidget {
                   ),
                   child: Text(
                     note.quickReview,
-                    style: GoogleFonts.outfit(fontSize: 16, height: 1.5),
+                    style: GoogleFonts.inter(fontSize: 16, height: 1.5),
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -82,10 +82,10 @@ class NoteDetailPage extends StatelessWidget {
   Widget _buildSectionHeader(String title) {
     return Text(
       title,
-      style: GoogleFonts.outfit(
+      style: GoogleFonts.inter(
         fontSize: 20,
         fontWeight: FontWeight.bold,
-        color: AppColors.accentCoral,
+        color: AppColors.primaryGreen,
       ),
     );
   }
@@ -112,7 +112,7 @@ class NoteDetailPage extends StatelessWidget {
                   Expanded(
                     child: Text(
                       p,
-                      style: GoogleFonts.outfit(fontSize: 16, height: 1.5),
+                      style: GoogleFonts.inter(fontSize: 16, height: 1.5),
                     ),
                   ),
                 ],

@@ -100,7 +100,7 @@ class _AddExamSheetState extends State<AddExamSheet> {
             children: [
               Text(
                 'Add New Exam',
-                style: GoogleFonts.outfit(
+                style: GoogleFonts.inter(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: AppColors.softWhite,
@@ -133,7 +133,7 @@ class _AddExamSheetState extends State<AddExamSheet> {
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<Subject>(
-                value: _selectedSubject,
+                initialValue: _selectedSubject,
                 decoration: InputDecoration(
                   labelText: 'Subject',
                   labelStyle: const TextStyle(color: AppColors.textSecondary),
@@ -218,13 +218,9 @@ class _AddExamSheetState extends State<AddExamSheet> {
                       selected: isSelected,
                       onSelected: (val) =>
                           setState(() => _notificationFrequency = freq),
-                      selectedColor: AppColors.accentCoral,
+                      selectedColor: AppColors.primaryGreen,
                       backgroundColor: AppColors.secondaryNavy,
-                      labelStyle: TextStyle(
-                        color: isSelected
-                            ? AppColors.softWhite
-                            : AppColors.textSecondary,
-                      ),
+                      labelStyle: TextStyle(color: Colors.white),
                     ),
                   );
                 }).toList(),

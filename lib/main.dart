@@ -11,6 +11,7 @@ import 'package:lecturio/injection_container.dart' as di;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lecturio/features/dashboard/presentation/bloc/exam_bloc.dart';
 import 'package:lecturio/features/navigation/presentation/bloc/navigation_bloc.dart';
+import 'package:lecturio/core/theme/theme_bloc.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -59,12 +60,19 @@ class LecturioApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => di.sl<NavigationBloc>()),
         BlocProvider(create: (_) => di.sl<ExamBloc>()..add(LoadExams())),
+        BlocProvider(create: (_) => ThemeBloc()),
       ],
-      child: MaterialApp(
-        title: 'Lecturio',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.darkTheme,
-        home: const SplashPage(),
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, state) {
+          return MaterialApp(
+            title: 'Lecturio',
+            debugShowCheckedModeBanner: false,
+            theme: state.themeMode == AppThemeMode.green
+                ? AppTheme.greenTheme
+                : AppTheme.darkTheme,
+            home: const SplashPage(),
+          );
+        },
       ),
     );
   }

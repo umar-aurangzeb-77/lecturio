@@ -46,7 +46,7 @@ class ExamCard extends StatelessWidget {
             ),
             child: Text(
               '$daysLeft Days Left',
-              style: GoogleFonts.outfit(
+              style: GoogleFonts.inter(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -56,7 +56,7 @@ class ExamCard extends StatelessWidget {
           const Spacer(),
           Text(
             subjectName,
-            style: GoogleFonts.outfit(
+            style: GoogleFonts.inter(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: AppColors.softWhite,
@@ -66,7 +66,7 @@ class ExamCard extends StatelessWidget {
           ),
           Text(
             exam.title,
-            style: GoogleFonts.outfit(
+            style: GoogleFonts.inter(
               fontSize: 14,
               color: AppColors.textSecondary,
             ),
@@ -84,7 +84,7 @@ class ExamCard extends StatelessWidget {
               const SizedBox(width: 4),
               Text(
                 exam.notificationFrequency,
-                style: GoogleFonts.outfit(
+                style: GoogleFonts.inter(
                   fontSize: 12,
                   color: AppColors.textSecondary,
                 ),

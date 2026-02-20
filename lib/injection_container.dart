@@ -5,10 +5,14 @@ import 'package:lecturio/core/data/repositories/note_repository.dart';
 import 'package:lecturio/core/data/repositories/vault_repository.dart';
 import 'package:lecturio/features/dashboard/presentation/bloc/exam_bloc.dart';
 import 'package:lecturio/features/navigation/presentation/bloc/navigation_bloc.dart';
+import 'package:lecturio/core/network/gemini_service.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  // Services
+  sl.registerLazySingleton(() => GeminiService("AIzaSyBAZMumcUaHImQ8rfabyvVgL71YI5QU_Ys"));
+
   // Blocs
   sl.registerFactory(() => ExamBloc(sl()));
   sl.registerFactory(() => NavigationBloc());

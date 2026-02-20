@@ -3,7 +3,7 @@ import 'package:lecturio/injection_container.dart';
 import 'package:lecturio/core/data/repositories/vault_repository.dart';
 import 'package:lecturio/features/vault/domain/models/vault_item.dart';
 import 'package:lecturio/core/constants/colors.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:lecturio/features/vault/presentation/pages/pdf_viewer_page.dart';
 
 class SubjectDetailPage extends StatelessWidget {
   final String subjectName;
@@ -79,7 +79,7 @@ class SubjectDetailPage extends StatelessWidget {
     return ListView.separated(
       padding: const EdgeInsets.all(16),
       itemCount: items.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final item = items[index];
         return Card(
@@ -105,7 +105,23 @@ class SubjectDetailPage extends StatelessWidget {
               color: AppColors.textSecondary,
             ),
             onTap: () {
-              // Open file logic
+              if (item.type == 'pdf') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PdfViewerPage(
+                      filePath: item.filePath,
+                      title: item.fileName,
+                    ),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Opening ${item.type} is not supported yet'),
+                  ),
+                );
+              }
             },
           ),
         );

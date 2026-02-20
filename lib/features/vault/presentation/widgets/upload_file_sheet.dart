@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:file_picker/file_picker.dart';
@@ -7,7 +6,6 @@ import 'package:lecturio/injection_container.dart';
 import 'package:lecturio/core/data/repositories/subject_repository.dart';
 import 'package:lecturio/core/data/repositories/vault_repository.dart';
 import 'package:lecturio/features/vault/domain/models/vault_item.dart';
-import 'package:lecturio/core/models/subject.dart';
 import 'package:uuid/uuid.dart';
 
 class UploadFileSheet extends StatefulWidget {
@@ -92,7 +90,7 @@ class _UploadFileSheetState extends State<UploadFileSheet> {
             children: [
               Text(
                 'Upload Content',
-                style: GoogleFonts.outfit(
+                style: GoogleFonts.inter(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -134,7 +132,7 @@ class _UploadFileSheetState extends State<UploadFileSheet> {
                   const SizedBox(height: 12),
                   Text(
                     _pickedFile?.name ?? 'Tap to pick PDF or Image',
-                    style: GoogleFonts.outfit(
+                    style: GoogleFonts.inter(
                       color: _pickedFile != null
                           ? Colors.white
                           : AppColors.textSecondary,
@@ -150,7 +148,7 @@ class _UploadFileSheetState extends State<UploadFileSheet> {
           // Subject Dropdown
           Text(
             'Select Subject',
-            style: GoogleFonts.outfit(
+            style: GoogleFonts.inter(
               fontWeight: FontWeight.w600,
               color: Colors.white,
             ),
@@ -195,7 +193,7 @@ class _UploadFileSheetState extends State<UploadFileSheet> {
                   children: [
                     Text(
                       'Lecture #',
-                      style: GoogleFonts.outfit(
+                      style: GoogleFonts.inter(
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                       ),
@@ -225,7 +223,7 @@ class _UploadFileSheetState extends State<UploadFileSheet> {
                   children: [
                     Text(
                       'Topic',
-                      style: GoogleFonts.outfit(
+                      style: GoogleFonts.inter(
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                       ),
@@ -264,7 +262,7 @@ class _UploadFileSheetState extends State<UploadFileSheet> {
               ),
               child: Text(
                 'Add to Vault',
-                style: GoogleFonts.outfit(
+                style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),

@@ -59,7 +59,7 @@ class _AddSubjectSheetState extends State<AddSubjectSheet> {
         children: [
           Text(
             'New Subject',
-            style: GoogleFonts.outfit(
+            style: GoogleFonts.inter(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -83,7 +83,7 @@ class _AddSubjectSheetState extends State<AddSubjectSheet> {
           const SizedBox(height: 24),
           Text(
             'Folder Color',
-            style: GoogleFonts.outfit(
+            style: GoogleFonts.inter(
               fontWeight: FontWeight.w600,
               color: Colors.white,
             ),
@@ -94,7 +94,7 @@ class _AddSubjectSheetState extends State<AddSubjectSheet> {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: _colors.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
+              separatorBuilder: (_, _) => const SizedBox(width: 12),
               itemBuilder: (context, index) {
                 final colorStr = _colors[index];
                 final isSelected = _selectedColor == colorStr;
@@ -128,7 +128,7 @@ class _AddSubjectSheetState extends State<AddSubjectSheet> {
               ),
               child: Text(
                 'Create Folder',
-                style: GoogleFonts.outfit(
+                style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
