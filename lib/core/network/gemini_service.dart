@@ -8,7 +8,10 @@ class GeminiService {
   late final GenerativeModel model;
 
   GeminiService(this.apiKey) {
-    model = GenerativeModel(model: 'gemini-2.0-flash', apiKey: apiKey);
+    model = GenerativeModel(
+      model: 'gemini-2.0-flash',
+      apiKey: 'AIzaSyBMn5bXnrVHe9Yb1Sfp0305gumIjARHpGA',
+    );
   }
 
   Future<Note> generateNoteFromText(String text, String subjectId) async {

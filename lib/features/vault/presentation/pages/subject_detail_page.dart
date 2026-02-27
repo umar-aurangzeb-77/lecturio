@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lecturio/injection_container.dart';
 import 'package:lecturio/core/data/repositories/vault_repository.dart';
 import 'package:lecturio/features/vault/domain/models/vault_item.dart';
 import 'package:lecturio/core/constants/colors.dart';
 import 'package:lecturio/features/vault/presentation/pages/pdf_viewer_page.dart';
+import 'package:open_file/open_file.dart';
 
 class SubjectDetailPage extends StatelessWidget {
   final String subjectName;
@@ -44,10 +46,12 @@ class SubjectDetailPage extends StatelessWidget {
             _buildItemsList(
               vaultItems.where((i) => i.type == 'pdf').toList(),
               Icons.picture_as_pdf,
+              'pdf',
             ),
             _buildItemsList(
               vaultItems.where((i) => i.type == 'image').toList(),
               Icons.image,
+              'image',
             ),
           ],
         ),
@@ -55,7 +59,7 @@ class SubjectDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildItemsList(List<VaultItem> items, IconData icon) {
+  Widget _buildItemsList(List<VaultItem> items, IconData icon, String type) {
     if (items.isEmpty) {
       return Center(
         child: Column(
@@ -67,9 +71,9 @@ class SubjectDetailPage extends StatelessWidget {
               color: AppColors.textSecondary.withOpacity(0.5),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'No items found',
-              style: TextStyle(color: AppColors.textSecondary),
+            Text(
+              'No ${type == 'pdf' ? 'PDFs' : 'Images'} found',
+              style: const TextStyle(color: AppColors.textSecondary),
             ),
           ],
         ),
@@ -88,7 +92,19 @@ class SubjectDetailPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           child: ListTile(
-            leading: Icon(icon, color: subjectColor),
+            leading: type == 'image'
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.file(
+                      File(item.filePath),
+                      width: 40,
+                      height: 40,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Icon(icon, color: subjectColor),
+                    ),
+                  )
+                : Icon(icon, color: subjectColor),
             title: Text(
               item.fileName,
               style: const TextStyle(
@@ -100,9 +116,12 @@ class SubjectDetailPage extends StatelessWidget {
               'Lec #${item.lectureNumber} • ${item.topic}',
               style: const TextStyle(color: AppColors.textSecondary),
             ),
-            trailing: const Icon(
-              Icons.more_vert,
-              color: AppColors.textSecondary,
+            trailing: IconButton(
+              icon: const Icon(
+                Icons.open_in_new,
+                color: AppColors.textSecondary,
+              ),
+              onPressed: () => OpenFile.open(item.filePath),
             ),
             onTap: () {
               if (item.type == 'pdf') {
@@ -116,9 +135,26 @@ class SubjectDetailPage extends StatelessWidget {
                   ),
                 );
               } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Opening ${item.type} is not supported yet'),
+                // Show image in a full screen dialog
+                showDialog(
+                  context: context,
+                  builder: (context) => Dialog(
+                    backgroundColor: Colors.transparent,
+                    child: Stack(
+                      children: [
+                        InteractiveViewer(
+                          child: Image.file(File(item.filePath)),
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: IconButton(
+                            icon: const Icon(Icons.close, color: Colors.white),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }

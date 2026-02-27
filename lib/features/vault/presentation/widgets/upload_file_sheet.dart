@@ -1,6 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
 import 'package:lecturio/core/constants/colors.dart';
 import 'package:lecturio/injection_container.dart';
 import 'package:lecturio/core/data/repositories/subject_repository.dart';
@@ -51,11 +54,26 @@ class _UploadFileSheetState extends State<UploadFileSheet> {
         ? 'pdf'
         : 'image';
 
+    // Permanent storage logic
+    final appDir = await getApplicationDocumentsDirectory();
+    final vaultDir = Directory('${appDir.path}/vault');
+    if (!await vaultDir.exists()) {
+      await vaultDir.create(recursive: true);
+    }
+
+    final id = const Uuid().v4();
+    final newFileName = '${id}_${_pickedFile!.name}';
+    final permanentPath = p.join(vaultDir.path, newFileName);
+
+    // Copy file to permanent storage
+    final file = File(_pickedFile!.path!);
+    await file.copy(permanentPath);
+
     final newItem = VaultItem(
-      id: const Uuid().v4(),
+      id: id,
       subjectId: _selectedSubjectId!,
       fileName: _pickedFile!.name,
-      filePath: _pickedFile!.path!,
+      filePath: permanentPath,
       type: type,
       date: DateTime.now(),
       lectureNumber: int.tryParse(_lectureController.text) ?? 0,

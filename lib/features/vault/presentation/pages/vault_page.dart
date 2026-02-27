@@ -105,6 +105,7 @@ class _VaultPageState extends State<VaultPage> {
                       final subject = subjects[index];
                       return _buildSubjectFolderCard(
                         context,
+                        id: subject.id,
                         name: subject.name,
                         fileCount: sl<VaultRepository>()
                             .getItemsBySubject(subject.id)
@@ -221,6 +222,7 @@ class _VaultPageState extends State<VaultPage> {
 
   Widget _buildSubjectFolderCard(
     BuildContext context, {
+    required String id,
     required String name,
     required int fileCount,
     required Color color,
@@ -233,7 +235,7 @@ class _VaultPageState extends State<VaultPage> {
             builder: (context) => SubjectDetailPage(
               subjectName: name,
               subjectColor: color,
-              subjectId: name,
+              subjectId: id,
             ), // Fixed constructor
           ),
         );
