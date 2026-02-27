@@ -3,16 +3,25 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import '../../features/study/domain/models/note.dart';
 import 'package:uuid/uuid.dart';
 
-class GeminiService {
-  final String apiKey;
-  late final GenerativeModel model;
+import 'package:lecturio/core/data/repositories/settings_repository.dart';
 
-  GeminiService(this.apiKey) {
-    model = GenerativeModel(
-      model: 'gemini-2.0-flash',
-      apiKey: 'AIzaSyBMn5bXnrVHe9Yb1Sfp0305gumIjARHpGA',
-    );
+class GeminiService {
+  final SettingsRepository _settingsRepository;
+  GenerativeModel? _model;
+
+  GeminiService(this._settingsRepository) {
+    _initModel();
   }
+
+  void _initModel() {
+    final apiKey = _settingsRepository.getGeminiApiKey();
+    if (apiKey != null && apiKey.isNotEmpty) {
+      _model = GenerativeModel(model: 'gemini-2.0-flash', apiKey: apiKey);
+    }
+  }
+
+  // Add this to allow manual re-init when key changes
+  void updateApiKey() => _initModel();
 
   Future<Note> generateNoteFromText(String text, String subjectId) async {
     final prompt =
@@ -34,9 +43,22 @@ class GeminiService {
     $text
     ''';
 
+    if (_model == null) {
+      return Note(
+        id: const Uuid().v4(),
+        subjectId: subjectId,
+        title: "Configuration Error",
+        content:
+            "Please set your Gemini API Key in Settings to generate notes.",
+        keyConcepts: ["API Key Missing"],
+        quickReview: "Go to Settings and provide a valid Gemini API Key.",
+        createdAt: DateTime.now(),
+      );
+    }
+
     try {
       final content = [Content.text(prompt)];
-      final response = await model.generateContent(content);
+      final response = await _model!.generateContent(content);
 
       final resultText = response.text ?? "{}";
 

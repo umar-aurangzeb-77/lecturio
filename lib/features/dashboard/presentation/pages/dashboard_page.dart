@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lecturio/features/dashboard/presentation/pages/settings_page.dart';
 import 'package:lecturio/core/constants/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,17 @@ class DashboardPage extends StatelessWidget {
             floating: false,
             pinned: true,
             actions: [
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SettingsPage(),
+                    ),
+                  );
+                },
+              ),
               BlocBuilder<ThemeBloc, ThemeState>(
                 builder: (context, state) {
                   return IconButton(

@@ -33,6 +33,7 @@ void main() async {
   await Hive.openBox<Exam>('exams');
   await Hive.openBox<Note>('notes');
   await Hive.openBox<VaultItem>('vault');
+  await Hive.openBox('settings');
 
   // Initialize DI
   await di.init();
